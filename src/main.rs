@@ -12,6 +12,8 @@ fn main() {
     //     .arg("-a")
     //     .spawn()
     //     .expect("ls command failed to start");
-    let command: &str = "ls -l -a";
-    tools::system_operations::execute_command(command)
+    // let command: &str = "sudo su";
+    // tools::system_operations::execute_command(command)
+
+    tools::operations::setup_apache();
 }

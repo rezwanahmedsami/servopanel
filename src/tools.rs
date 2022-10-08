@@ -13,7 +13,6 @@ pub mod system_operations {
         let commands_vec: Vec<&str> = split_command.collect();
         let first_command = commands_vec[0];
         let mut cmd = Command::new(first_command);
-        // println!("{:?}", commands_vec[0]);
         for c in commands_vec{
             if c != first_command {
                 cmd.arg(c);
@@ -22,7 +21,6 @@ pub mod system_operations {
         match cmd.output(){
             Ok(o) => {
                 unsafe {
-                    // String::from_utf8_unchecked(o.stdout);
                     println!("{}", String::from_utf8_unchecked(o.stdout));
                 }
             }
@@ -34,7 +32,20 @@ pub mod system_operations {
 }
 
 pub mod operations {
+    use crate::tools;
     pub fn setup_apache(){
-        
+        println!("Apache server setup started....");
+        tools::system_operations::execute_command("sudo yum install update");
+        println!("Installing httpd......");
+        tools::system_operations::execute_command("sudo yum install httpd");
+        println!("Adding service to firewall ....");
+        tools::system_operations::execute_command("sudo firewall-cmd --permanent --add-service=https");
+        println!("Reloading firewall");
+        tools::system_operations::execute_command("sudo firewall-cmd --reload");
+        println!("Starting httpd....");
+        tools::system_operations::execute_command("sudo systemctl start httpd");
+        let concat_vec: Vec<&str> = vec!["sudo mkdir ",tools::require_paths::SITES_AVAILABLE," ", tools::require_paths::SITES_ENABLED];
+        tools::system_operations::execute_command(&concat_vec.concat());
+        println!("Setting success.... now run the script again to get panel and go to your ip address to access web");
     }
 }
