@@ -12,6 +12,6 @@ fn main() {
     //     .arg("-a")
     //     .spawn()
     //     .expect("ls command failed to start");
-    let command: &str = "mongodrun";
+    let command: &str = "ls -l -a";
     tools::system_operations::execute_command(command)
 }
