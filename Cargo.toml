@@ -2,7 +2,17 @@
 name = "servopanel"
 version = "0.1.0"
 edition = "2021"
+authors = ["Rezwan ahmod sami <samiahmed0f0@email.com>"]
+license = "MIT"
+description = "A tool to manage web server."
+readme = "README.md"
+homepage = "https://github.com/rezwanahmodsami/servopanel"
+repository = "https://github.com/rezwanahmodsami/servopanel"
+keywords = ["servopanel", "cli webpanel", "server panel"]
+categories = ["command-line-utilities"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[target.x86_64-unknown-linux-gnu]
+linker = "x86_64-unknown-linux-gnu-gcc"
 
 [dependencies]
