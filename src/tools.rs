@@ -34,6 +34,8 @@ pub mod system_operations {
 pub mod operations {
     use crate::tools;
     use crate::fileoperations;
+    use std::io::{stdin,stdout,Write};
+    use std::{thread, time::Duration};
 
     pub fn setup_apache(){
         println!("Apache server setup started....");
@@ -71,19 +73,6 @@ pub mod operations {
         let  concat_vec6: Vec<&str> = vec!["sudo semanage fcontext -a -t httpd_log_t '",tools::require_paths::WEB_ROOT, domain_name,"/log(/.*)?'"];
         let  concat_vec7: Vec<&str> = vec!["sudo restorecon -R -v ",tools::require_paths::WEB_ROOT, domain_name,"/log"];
         let  concat_vec8: Vec<&str> = vec!["ls -lZ ",tools::require_paths::WEB_ROOT, domain_name,"/log"];
-        
-        // println!("{}", &concat_vec.concat());
-        // println!("{}", &concat_vec2.concat());
-        // println!("{}", &concat_vec3.concat());
-        // println!("{}", &genrate_index_file.concat());
-        // println!("{}", &index_file_content.concat());
-        // println!("{}", &genrate_domain_config.concat());
-        // println!("{}", domain_config_content);
-        // println!("{}", &concat_vec4.concat());
-        // println!("{}", &concat_vec5.concat());
-        // println!("{}", &concat_vec6.concat());
-        // println!("{}", &concat_vec7.concat());
-        // println!("{}", &concat_vec8.concat());
 
         println!("PLease wait adding domain..");
         println!("Creating document root path for `{}` ...", domain_name);
@@ -119,5 +108,31 @@ pub mod operations {
         tools::system_operations::execute_command(&concat_vec8.concat());
 
         println!("Successfully added domain");
+    }
+
+    pub fn add_domain(){
+        thread::sleep(Duration::from_millis(1000));
+        tools::system_operations::execute_command("clear");
+        let mut domain_name=String::new();
+        print!("Please enter your domain (Ex: example.com): ");
+        let _=stdout().flush();
+        stdin().read_line(&mut domain_name).expect("Did not enter a correct string");
+        if let Some('\n')=domain_name.chars().next_back() {
+            domain_name.pop();
+        }
+        if let Some('\r')=domain_name.chars().next_back() {
+            domain_name.pop();
+        }
+        if domain_name != ""{
+            if domain_name.contains("http://") || domain_name.contains("https://") || domain_name.contains("/") || domain_name.contains(":") || domain_name.contains(",") {
+                println!("Invalid domain, please enter again.");
+                add_domain();
+            }else{
+                tools::operations::create_domain_config(&domain_name);
+            }
+        }else{
+            println!("Invalid domain, please enter again.");
+            add_domain();
+        }
     }
 }

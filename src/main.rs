@@ -15,5 +15,5 @@ fn main() {
     // let command: &str = "sudo su";
     // tools::system_operations::execute_command(command)
 
-    tools::operations::create_domain_config("alkhella.com");
+    tools::operations::add_domain();
 }
