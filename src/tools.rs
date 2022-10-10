@@ -52,32 +52,72 @@ pub mod operations {
     }
 
     pub fn create_domain_config(domain_name: &str){
-        println!("PLease wait adding domain..");
-        println!("Creating document root path for `{}` ...", domain_name);
         let concat_vec: Vec<&str> = vec!["sudo mkdir -p ", tools::require_paths::WEB_ROOT, domain_name, "/public_html"];
-        tools::system_operations::execute_command(&concat_vec.concat());
-        println!("Creating document log path for `{}` ...", domain_name);
         let concat_vec2: Vec<&str> = vec!["sudo mkdir -p ", tools::require_paths::WEB_ROOT, domain_name, "/log"];
-        tools::system_operations::execute_command(&concat_vec2.concat());
-        println!("Working....");
         let concat_vec3: Vec<&str> = vec!["sudo chown -R $USER:$USER ", tools::require_paths::WEB_ROOT, domain_name, "/public_html"];
-        tools::system_operations::execute_command(&concat_vec3.concat());
-        println!("Working....");
         let genrate_index_file: Vec<&str> = vec![tools::require_paths::WEB_ROOT, domain_name, "/public_html/index.html"];
         let index_file_content: Vec<&str> = vec!["<h1>Successfully working: ", domain_name, "</h1>"];
-        fileoperations::filehandler::write_file(&genrate_index_file.concat(), &index_file_content.concat());
-        println!("Working....");
         let  genrate_domain_config: Vec<&str> = vec![tools::require_paths::SITES_AVAILABLE, domain_name,".conf"];
-        let domain_config_content = format!( "<VirtualHost *:80>
+        let domain_config_content = format!( "
+        <VirtualHost *:80>
             ServerName {}
             ServerAlias www.{}
             DocumentRoot /var/www/{}/public_html
             ErrorLog /var/www/{}/log/error.log
             CustomLog /var/www/{}/log/requests.log combined
         </VirtualHost>", domain_name, domain_name, domain_name, domain_name, domain_name);
+        let  concat_vec4: Vec<&str> = vec!["sudo ln -s ",tools::require_paths::SITES_AVAILABLE, domain_name,".conf ", tools::require_paths::SITES_ENABLED, domain_name, ".conf"];
+        let  concat_vec5: Vec<&str> = vec!["sudo ls -dZ ",tools::require_paths::WEB_ROOT, domain_name,"/log/"];
+        let  concat_vec6: Vec<&str> = vec!["sudo semanage fcontext -a -t httpd_log_t '",tools::require_paths::WEB_ROOT, domain_name,"/log(/.*)?'"];
+        let  concat_vec7: Vec<&str> = vec!["sudo restorecon -R -v ",tools::require_paths::WEB_ROOT, domain_name,"/log"];
+        let  concat_vec8: Vec<&str> = vec!["ls -lZ ",tools::require_paths::WEB_ROOT, domain_name,"/log"];
+        
+        // println!("{}", &concat_vec.concat());
+        // println!("{}", &concat_vec2.concat());
+        // println!("{}", &concat_vec3.concat());
+        // println!("{}", &genrate_index_file.concat());
+        // println!("{}", &index_file_content.concat());
+        // println!("{}", &genrate_domain_config.concat());
+        // println!("{}", domain_config_content);
+        // println!("{}", &concat_vec4.concat());
+        // println!("{}", &concat_vec5.concat());
+        // println!("{}", &concat_vec6.concat());
+        // println!("{}", &concat_vec7.concat());
+        // println!("{}", &concat_vec8.concat());
+
+        println!("PLease wait adding domain..");
+        println!("Creating document root path for `{}` ...", domain_name);
+        
+        tools::system_operations::execute_command(&concat_vec.concat());
+        println!("Creating document log path for `{}` ...", domain_name);
+        
+        tools::system_operations::execute_command(&concat_vec2.concat());
+        println!("Working....");
+        
+        tools::system_operations::execute_command(&concat_vec3.concat());
+        println!("Working....");
+        
+        fileoperations::filehandler::write_file(&genrate_index_file.concat(), &index_file_content.concat());
+        println!("Working....");
+        
         fileoperations::filehandler::write_file(&genrate_domain_config.concat(), &domain_config_content);
         println!("Working .....");
-        let  concat_vec4: Vec<&str> = vec!["sudo ln -s ",tools::require_paths::SITES_AVAILABLE, domain_name,".conf ", tools::require_paths::SITES_ENABLED, domain_name, ".conf"];
+        
         tools::system_operations::execute_command(&concat_vec4.concat());
+        println!("Working .....");
+        
+        tools::system_operations::execute_command(&concat_vec5.concat());
+        println!("Working .....");
+        
+        tools::system_operations::execute_command(&concat_vec6.concat());
+        println!("Working .....");
+        
+        tools::system_operations::execute_command(&concat_vec7.concat());
+        println!("Working .....");
+        tools::system_operations::execute_command("sudo systemctl restart httpd");
+        println!("Working .....");
+        tools::system_operations::execute_command(&concat_vec8.concat());
+
+        println!("Successfully added domain");
     }
 }
