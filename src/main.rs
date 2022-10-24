@@ -15,5 +15,14 @@ fn main() {
     // let command: &str = "sudo su";
     // tools::system_operations::execute_command(command)
 
-    tools::operations::add_domain();
+    // tools::operations::add_domain();
+    let paths = fileoperations::filehandler::list_dir("/etc");
+    for path in paths {
+        println!("Name: {}", path.unwrap().path().display())
+    }
+
+    
+    // println!("is dir: {}", fileoperations::filehandler::is_dir("./LICENSE"));
+    // println!("is file: {}", fileoperations::filehandler::is_file("./LICENSE"));
+    // println!("path exist: {}", fileoperations::filehandler::path_exists("./LICENSEs"));
 }
