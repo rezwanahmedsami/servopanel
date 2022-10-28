@@ -16,13 +16,19 @@ fn main() {
     // tools::system_operations::execute_command(command)
 
     // tools::operations::add_domain();
-    let paths = fileoperations::filehandler::list_dir("/etc");
-    for path in paths {
-        println!("Name: {}", path.unwrap().path().display())
-    }
+    // let paths = fileoperations::filehandler::list_dir("/etc");
+    // for path in paths {
+    //     let path_to_string = path.unwrap().path().display().to_string();
+    //     let path_split = path_to_string.split("/");
+    //     let splited_path: Vec<&str> = path_split.collect();
+    //     // p.split("/");
+    //     println!("{:?}", splited_path[splited_path.len() - 1]);
+    // }
 
     
     // println!("is dir: {}", fileoperations::filehandler::is_dir("./LICENSE"));
     // println!("is file: {}", fileoperations::filehandler::is_file("./LICENSE"));
     // println!("path exist: {}", fileoperations::filehandler::path_exists("./LICENSEs"));
+
+    tools::operations::get_domains();
 }

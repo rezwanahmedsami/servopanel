@@ -135,4 +135,24 @@ pub mod operations {
             add_domain();
         }
     }
+
+    pub fn get_domains(){
+        let paths = fileoperations::filehandler::list_dir("/etc");
+        let mut domain: Vec<&str> = vec![];
+        for path in paths {
+            let path_to_string = path.unwrap().path().display().to_string();
+            let path_split = path_to_string.split("/");
+            let splited_path: Vec<&str> = path_split.collect();
+            let last_index = splited_path[splited_path.len() - 1];
+            if fileoperations::filehandler::is_file(&path_to_string) {
+                let split_filename = last_index.split(".");
+                let splited_filename: Vec<&str> = split_filename.collect();
+                if splited_filename[splited_filename.len() - 1] == "conf"  {
+                    
+                    // domain.push(last_index);
+                    println!("File: {}", last_index);
+                }
+            }
+        }
+    }
 }
