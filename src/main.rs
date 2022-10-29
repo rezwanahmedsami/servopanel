@@ -30,5 +30,6 @@ fn main() {
     // println!("is file: {}", fileoperations::filehandler::is_file("./LICENSE"));
     // println!("path exist: {}", fileoperations::filehandler::path_exists("./LICENSEs"));
 
-    tools::operations::view_domains();
+    // tools::operations::set_proxy_server("http://127.0.0.1:3000", "alkhella.com");
+    tools::operations::setup_apache();
 }

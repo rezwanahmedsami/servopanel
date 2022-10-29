@@ -191,4 +191,27 @@ pub mod operations {
             }
         }
     }
+
+    pub fn set_proxy_server(proxypass: &str, selected_domain: &str){
+        println!("PLease wait Configuring domain..");
+        let concat_vec1: Vec<&str> = vec![tools::require_paths::SITES_AVAILABLE, selected_domain, ".conf"];
+
+        let domain_config_file = concat_vec1.concat();
+        let domain_config_content = format!( "
+        <VirtualHost *:80>
+            ServerName {}
+            ServerAlias www.{}
+
+            ErrorLog /var/www/{}/log/error.log
+            CustomLog /var/www/{}/log/requests.log combined
+            ProxyPreserveHost On
+            ProxyPass / {}
+            ProxyPassReverse / {}
+        </VirtualHost>", selected_domain, selected_domain, selected_domain, selected_domain, proxypass, proxypass);
+        println!("{}", domain_config_content);
+        fileoperations::filehandler::write_file(&domain_config_file, &domain_config_content);
+        tools::system_operations::execute_command("sudo systemctl restart httpd");
+        println!("Successfully added Proxy on: {}", selected_domain);
+        println!("Proxy pass: {}", proxypass);
+    }
 }
