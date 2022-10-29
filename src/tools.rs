@@ -46,7 +46,7 @@ pub mod operations {
         tools::system_operations::execute_command("sudo yum install update");
         println!("Installing httpd......");
         tools::system_operations::execute_command("sudo yum install httpd");
-        println!("y");
+        print!("y");
         println!("Adding service to firewall ....");
         tools::system_operations::execute_command("sudo firewall-cmd --permanent --add-service=https");
         println!("Reloading firewall");
