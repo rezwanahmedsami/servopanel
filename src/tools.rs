@@ -31,7 +31,7 @@ pub mod system_operations {
         }
 
         cmd.spawn().ok().expect("Failes to write command");
-        println!("{:?}", cmd.status());
+        // println!("{:?}", cmd.status());
     }
 }
 
@@ -46,6 +46,7 @@ pub mod operations {
         tools::system_operations::execute_command("sudo yum install update");
         println!("Installing httpd......");
         tools::system_operations::execute_command("sudo yum install httpd");
+        println!("y");
         println!("Adding service to firewall ....");
         tools::system_operations::execute_command("sudo firewall-cmd --permanent --add-service=https");
         println!("Reloading firewall");
