@@ -30,5 +30,5 @@ fn main() {
     // println!("is file: {}", fileoperations::filehandler::is_file("./LICENSE"));
     // println!("path exist: {}", fileoperations::filehandler::path_exists("./LICENSEs"));
 
-    tools::operations::get_domains();
+    tools::operations::view_domains();
 }

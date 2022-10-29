@@ -137,7 +137,7 @@ pub mod operations {
     }
 
     pub fn get_domains(){
-        let paths = fileoperations::filehandler::list_dir("/etc");
+        let paths = fileoperations::filehandler::list_dir(tools::require_paths::SITES_AVAILABLE);
         let mut domain: Vec<&str> = vec![];
         for path in paths {
             let path_to_string = path.unwrap().path().display().to_string();
@@ -151,6 +151,42 @@ pub mod operations {
                     
                     // domain.push(last_index);
                     println!("File: {}", last_index);
+                }
+            }
+        }
+    }
+
+    pub fn view_domains(){
+        let paths = fileoperations::filehandler::list_dir(tools::require_paths::ETC);
+
+        let mut i = 1;
+        for path in paths {
+            let path_to_string = path.unwrap().path().display().to_string();
+            let path_split = path_to_string.split("/");
+            let splited_path: Vec<&str> = path_split.collect();
+            let last_index_value = splited_path[splited_path.len() - 1];
+            if fileoperations::filehandler::is_file(&path_to_string) {
+                let split_filename = last_index_value.split(".");
+                let splited_filename: Vec<&str> = split_filename.collect();
+                let last_index = splited_filename.len() - 1;
+                if splited_filename[last_index] == "conf"  {
+                    let mut domain_name = "".to_owned();
+                    let mut x = 0;
+                    for d_name in splited_filename {
+                        if d_name != "conf" {
+                            domain_name.push_str(d_name);
+                        }
+
+                        if x != (last_index-1) {
+                            domain_name.push_str(".");
+                        }else{
+                            break;
+                        }
+                        x += 1;
+                    }
+                    // domain.push(last_index);
+                    println!("{}. {}", i,domain_name);
+                    i += 1;
                 }
             }
         }
