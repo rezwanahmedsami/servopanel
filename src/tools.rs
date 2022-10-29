@@ -8,7 +8,7 @@ pub mod require_paths{
 
 pub mod system_operations {
     use std::process::Command;
-    pub fn execute_command(command: &str) -> bool {
+    pub fn execute_command(command: &str) {
         let split_command = command.split(" ");
         let commands_vec: Vec<&str> = split_command.collect();
         let first_command = commands_vec[0];
