@@ -30,7 +30,7 @@ pub mod system_operations {
             }
         }
 
-        cmd.spawn().expect("Failes to write command");
+        cmd.spawn().ok().expect("Failes to write command");
     }
 }
 
