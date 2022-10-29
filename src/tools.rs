@@ -13,8 +13,7 @@ pub mod system_operations {
         let commands_vec: Vec<&str> = split_command.collect();
         let first_command = commands_vec[0];
         let mut cmd = Command::new(first_command);
-        let mut child = cmd.spawn().unwrap();
-        child.wait();
+
         for c in commands_vec{
             if c != first_command {
                 cmd.arg(c);
@@ -30,6 +29,8 @@ pub mod system_operations {
                 println!("There was an error: {}", e);
             }
         }
+
+        cmd.spawn().expect("Failes to write command");
     }
 }
 
